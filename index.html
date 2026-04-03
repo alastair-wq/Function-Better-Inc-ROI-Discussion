@@ -149,6 +149,67 @@ html, body {
   transition: background 0.2s, transform 0.2s;
 }
 .dot.on { background: #1a1a18; transform: scale(1.3); }
+
+/* ── Mobile responsive ── */
+@media (max-width: 640px) {
+  .slide {
+    padding: 16px 12px 8px;
+    align-items: flex-start;
+  }
+
+  .card {
+    padding: 28px 20px;
+    border-radius: 10px;
+  }
+
+  .h1 { font-size: 22px; line-height: 1.15; margin-bottom: 6px; }
+  .sub { font-size: 12px; margin-bottom: 1.4rem; }
+  .label { font-size: 9px; }
+
+  /* Three-zone flow: stack vertically */
+  .flow {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+  .arrow { display: none; }
+  .zone { padding: 1rem 1rem; }
+
+  /* Revenue rows — tighter */
+  .rev-val { font-size: 16px; }
+  .rev-name { font-size: 11px; }
+
+  /* Slide 2 two-col grid: stack */
+  .card > div[style*="grid-template-columns:1fr 1fr"] {
+    display: block !important;
+  }
+  .card > div[style*="grid-template-columns:1fr 1fr"] > div {
+    margin-bottom: 1rem;
+  }
+
+  /* Stat boxes */
+  div[style*="grid-template-columns:1fr 1fr"] > div[style*="background:#f5f5f2"],
+  div[style*="grid-template-columns:1fr 1fr"] > div[style*="background:#eaf4ee"] {
+    border-radius: 8px;
+  }
+
+  /* Form factor figures grid */
+  div[style*="grid-template-columns:1fr 1fr 1fr"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Nav adjustments */
+  .nav { gap: 10px; padding: 0 8px; }
+  .nav-btn { padding: 7px 14px; font-size: 11px; }
+  .nav-counter { font-size: 13px; min-width: 34px; }
+}
+
+@media (max-width: 380px) {
+  .card { padding: 20px 14px; }
+  .h1 { font-size: 19px; }
+  .nav-btn { padding: 6px 10px; }
+  .dot-row { display: none; }
+}
+
 </style>
 </head>
 <body>
@@ -374,6 +435,17 @@ html, body {
     if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
     if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
   });
+
+  // Touch swipe support
+  var touchStartX = 0;
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+  document.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+  }, {passive: true});
+
 </script>
 
 </body>
